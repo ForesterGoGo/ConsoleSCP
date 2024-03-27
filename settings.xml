@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <windowSizeWidth>1024</windowSizeWidth>
+  <startUpDebugInfo>false</startUpDebugInfo>
+  <bind>
+    <key_q>EnabledDebugInfo</key_q>
+  </bind>
+</settings>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+  <version>0.1a</version>
+  <description>Начало существования игрового контента, здесь начала вершиться история, о которой возможно неузнают, незапомнят или не будут вспоминать, на все воля моей прокрастинации. Аминь.</description>
+  <conditions>
+    <condition id="0" elemType="Mail" elemId="0" elemParam="status" sign="=" value="2" typeVal="int">
+		<effectLink effectId="0" /> <!-- Внутри список эффектов, которые кстространяются на другие (конкретные) элементы для продвижения геимплея-->
+    </condition> <!-- Условие на прочитаное начальное сообщение -->
+  </conditions>
+  <mails>
+	<mail id="0" topic="MailTopic" text="MailText" />
+  </mails>
+  <effects>
+	<effect id="0" elemType="Event" elemId="0" elemParametr="status" value="1" typeVal="int"/>
+  </effects>
+  <events>
+	<event id="0" name="EventName" description="EventDescription" />
+  </events>
+  <protocols>
+	<protocol id="0" type="object" number="100" title="TEST OBJECT"> 
+		<textBlock id="0">Lorem ipsum dolor sit amet,</textBlock>
+		<textBlock id="1">consectetur adipiscing elit,</textBlock>
+		<textBlock id="2">sed do eiusmod tempor incididunt ut labore et dolore magna</textBlock>
+		<textBlock id="3" nline="">aliqua.</textBlock>
+	</protocol>
+	<protocol id="1" type="object" number="151" title="Картина"> 
+		<textBlock id="0" type="bolder">Объект №:</textBlock>
+		<textBlock id="1">SCP-151</textBlock>
+		<textBlock id="2" nline="" type="bolder">Класс объекта:</textBlock>
+		<textBlock id="3">Евклид</textBlock>
+		<textBlock id="4" nline="" type="bolder">Особые условия содержания:</textBlock>
+		<textBlock id="5">SCP-151 должен храниться в закрытом контейнере, покрытом непрозрачной тканью.</textBlock>
+		<textBlock id="6">Когда доступ к SCP-151 не требуется, ключи от контейнера должны находиться в распоряжении руководителя Зоны.</textBlock>
+		<textBlock id="7">На время проведения исследований SCP-151 разрешается хранить в закрытой лаборатории при условии, что, когда объект не изучается, он будет постоянно накрыт непрозрачным материалом.</textBlock>
+		<textBlock id="8" nline="" type="bolder">Описание:</textBlock>
+		<textBlock id="9">SCP-151 представляет собой написанную масляными красками картину размерами 1 м x 1.3 м, изображающую, по-видимому, подводное пространство.</textBlock>
+		<textBlock id="10">Человек, смотрящий на картину, первоначально не испытывает никаких отрицательных эффектов.</textBlock>
+		<textBlock id="11">Однако через 24 часа дыхание субъекта резко затрудняется, что в конечном итоге приводит к смерти.</textBlock>
+		<textBlock id="12">Вскрытие показывает, что лёгкие субъекта наполнены морской водой.</textBlock>
+		<textBlock id="13">Попытки остановить процесс "утопления изнутри" путём медицинского вмешательства возымели определённый эффект - а именно, продление жизни субъекта, - но остановить или обратить процесс не удалось.</textBlock> 
+		<textBlock id="14" nline="" type="eazy">Картина не подписана,</textBlock>
+		<textBlock id="15">но на оборотной стороне написано несколько имён.</textBlock>
+		<textBlock id="16" nline="" type="bolder">Приложение:</textBlock>
+		<textBlock id="17">SCP-151 был обнаружен в антикварной лавке в █████████, ███, после начала расследования Фондом серии необъяснимых смертей от утопления.</textBlock>
+		<textBlock id="18">Поскольку территория ███ не имеет выхода к морю, то после получения информации о морском происхождении воды, обнаруженной в лёгких жертв, а также о том, что жертвы были обнаружены на суше, Фонд направил на место команду переодетых в штатское агентов.</textBlock>
+		<textBlock id="19">Агентам удалось выяснить, что имена, написанные на оборотной стороне картины, принадлежат группе студентов с художественными наклонностями, исчезнувших во время прохождения обучения за границей в ███████.</textBlock>
+		<textBlock id="20">Ведутся поиски информации об их дальнейшей судьбе, которая может пролить свет на природу и происхождение SCP-151.</textBlock>
+	</protocol>
+  </protocols>
+</content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
