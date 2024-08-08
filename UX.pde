@@ -97,7 +97,7 @@ class Window extends Container
   void Draw()
   {
     if(!enabled) return;
-    fill(200);
+    fill(50);
     stroke(255);
     rect(position.x,position.y,size.x,size.y);
     rect(position.x,position.y,size.x,titleIndent);
@@ -271,6 +271,7 @@ class Label extends Object //Текстовая область
     if(enabled)
     {
       stroke(255,0,0);
+      rect(position.x,position.y,size.x,size.y); //NullPointerException
       fill(protocolTextColor);
       String temp = "";
       try{

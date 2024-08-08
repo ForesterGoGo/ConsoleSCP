@@ -60,7 +60,7 @@ void setup()
   Window settingsWindow = new Window(new PVector(width/4,height/4),new PVector(width/2,height/2),TypeWindow.CONTAINER,"SETTINGS",TypeDeepPosWindow.STANDART,"EnabledSettingsWindow");
   settingsWindow.SetElement(new Button(new PVector(20,20),new PVector(20,20),TypeButton.CLICABLE,"кнопачка"));
   
-  Window debugInfoWindow = new Window(new PVector(20,20),new PVector(400,100),TypeWindow.CONTAINER,"SETTINGS",TypeDeepPosWindow.IMPORTANT,"EnabledDebugInfo");  
+  Window debugInfoWindow = new Window(new PVector(20,20),new PVector(400,100),TypeWindow.CONTAINER,"INFO",TypeDeepPosWindow.IMPORTANT,"EnabledDebugInfo");  
   debugInfoWindow.SetElement(new Label(new PVector(5,-5),"",true,debugInfoOutput));
   
   Window protocolWindow = new Window(new PVector(width/5,height/5),new PVector(width-width/5-100,height-height/5-100),TypeWindow.CONTAINER,"PROTOCOL",TypeDeepPosWindow.STANDART,"EnabledProtocolWindow"); //<>//
