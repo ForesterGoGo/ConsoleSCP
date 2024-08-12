@@ -6,7 +6,7 @@ int fps;
 Последнее обновление 24.03.24 0:57
 Список проблем: 
 1. Съехал текст из-за убраного offset`a, потому что он нахуй не нужен. [РЕШЕНО]
-2. Текст не помещается в правый край окна. Захардкожена грань, по поиску в тексте "002200".
+2. Текст не помещается в правый край окна протокола. Стоит переписать логику поведения из списка объектов по реализациям в UX Update()
 3. При выборе другого протокола из списка, сначала обновляется текст протокола, потом обновляется состояние окна.
 4. Текст отрисовывается на окне, а не внутри него.
 */
@@ -60,20 +60,22 @@ void setup()
   Window settingsWindow = new Window(new PVector(width/4,height/4),new PVector(width/2,height/2),TypeWindow.CONTAINER,"SETTINGS",TypeDeepPosWindow.STANDART,"EnabledSettingsWindow");
   settingsWindow.SetElement(new Button(new PVector(20,20),new PVector(20,20),TypeButton.CLICABLE,"кнопачка"));
   
+  //------CREATE DEBUG INFO WINDOW--------
   Window debugInfoWindow = new Window(new PVector(20,20),new PVector(400,100),TypeWindow.CONTAINER,"INFO",TypeDeepPosWindow.IMPORTANT,"EnabledDebugInfo");  
-  debugInfoWindow.SetElement(new Label(new PVector(5,-5),"",true,debugInfoOutput));
+  debugInfoWindow.SetElement(new Label(new PVector(5,-5),new PVector(350,90),"",true,debugInfoOutput));
   
+  //------CREATE PROTOCOL WINDOW--------
   Window protocolWindow = new Window(new PVector(width/5,height/5),new PVector(width-width/5-100,height-height/5-100),TypeWindow.CONTAINER,"PROTOCOL",TypeDeepPosWindow.STANDART,"EnabledProtocolWindow"); //<>//
-  Panel protocolPanel = new Panel(new PVector(0,0),new PVector(0,0),TypePanel.SCROLLBOX);
-  Label protocolLabel = new Label(new PVector(10,15),"",true,protocolOutput);
+  Panel protocolPanel = new Panel(new PVector(0,0),new PVector(700,500),TypePanel.SCROLLBOX);
+  Label protocolLabel = new Label(new PVector(10,15),new PVector(650,450),"",true,protocolOutput);
   protocolWindow.SetElement(protocolPanel);
   protocolPanel.SetElement(protocolLabel);
   protocolPanel.enabled = true;
   
   
   Window consoleWindow = new Window(new PVector(0,0),new PVector(width,height/2),TypeWindow.CONTAINER,"DEBUG",TypeDeepPosWindow.IMPORTANT,"EnabledconsoleWindow");
-  consoleWindow.SetElement(new Label(new PVector(10,15),"console v.0.3a \n",true,consoleOutput));
-  consoleWindow.SetElement(new Label(new PVector(10,height/2-10),">",true,commandPromt));
+  consoleWindow.SetElement(new Label(new PVector(10,15),new PVector(0,0),"console v.0.3a \n",true,consoleOutput));
+  consoleWindow.SetElement(new Label(new PVector(10,height/2-10),new PVector(0,0),">",true,commandPromt));
   //-----------------------------
   loadXMLe();
   //-----------------------------

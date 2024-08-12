@@ -66,6 +66,9 @@ interface TypePanel //Пока не используется
   DEFAULT   = 0,
   SCROLLBOX = 1;
 }
+
+//========================================================================
+
 class Window extends Container
 {
   int id;
@@ -75,19 +78,17 @@ class Window extends Container
   String title;
   String uieventStart;
   boolean enabled = false;
-  //ArrayList<Object> elements;
   Window(PVector Dposition, PVector Dsize, int Dtype, String Dtitle, int DdeepPos, String DuieventStart)
   {
-    id = ++countWindow;
+    id = AddWindowsList(this);
+    idObjectList = AddObjectList(this);
+    
     position = Dposition;
     type = Dtype;
     deepPos = DdeepPos;
     uieventStart = DuieventStart;
     title = Dtitle;
-    AddObjectList(this);
-    AddWindowsList(this);
     size = Dsize;
-    
     elements = new ArrayList<Object>();
   }
   String GetName()
@@ -115,7 +116,7 @@ class Window extends Container
       break;
     }
     for(Object element : elements)
-      element.Draw();
+      element.Draw(position);
   }
   void Update()
   {
@@ -125,7 +126,7 @@ class Window extends Container
       enabled = true;
     }
     for(Object element : elements)
-      element.Update();
+      element.Update(position);
   }
   void Destruct()
   {
@@ -146,8 +147,9 @@ Window protocolWindowGET(String name)
   }
   return temp;
 }
-void WindowsDraw()
+void WindowsDraw() 
 {
+  //Есть порядок отрисовывания окон, в зависимости от их важности
   for(Window window: windowsList)
     if(window.deepPos == TypeDeepPosWindow.STANDART)
       window.Draw();
@@ -158,6 +160,9 @@ void WindowsDraw()
     if(window.deepPos == TypeDeepPosWindow.IMPORTANT)
       window.Draw();
 }
+
+//========================================================================
+
 class Group extends Object
 {
   int id;
@@ -165,12 +170,16 @@ class Group extends Object
   Group()
   {
     EsID = new IntList();
+    idObjectList = AddObjectList(this);
   }
   String GetName()
   {
     return "name";
   }
 }
+
+//========================================================================
+
 class Button extends Object //Кнопка
 {
   int id;
@@ -186,14 +195,14 @@ class Button extends Object //Кнопка
   boolean enabled = true;
   Button(PVector Dposition, PVector Dsize, int Dtype, String Dtext)
   {
-    id = ++countButton;
+    id = AddButtonsList(this);
+    idObjectList = AddObjectList(this);
+    
     position = Dposition;
     size = Dsize;
     type = Dtype;
     text = Dtext;
     size.x = textWidth(text)+15;
-    AddObjectList(this);
-    AddButtonsList(this);
   };
   String GetName(){return null;}
   color getColor()
@@ -201,8 +210,9 @@ class Button extends Object //Кнопка
     color temp = color(0);
     return temp;
   }
-  void Draw()
+  void Draw(PVector parentPos)
   {
+    PVector globalPos = position.copy().add(parentPos);
     switch(status)
     { 
        case StatusButton.CLICKED:
@@ -219,59 +229,69 @@ class Button extends Object //Кнопка
        fill(buttonDisColor);
        break;
     }
-    rect(position.x,position.y,size.x,size.y);
+    
+    text("Button["+idObjectList+"]",globalPos.x-10,globalPos.y-10);
+    rect(globalPos.x,globalPos.y,size.x,size.y);
     fill(buttonTextColor);
-    text(text,position.x+5,position.y+15);
+    text(text,globalPos.x+5,globalPos.y+15);
     noFill();
   }
-  void Update()
+  void Update(PVector parentPos)
   {
     if(enabled) 
-      if(mouse.x>position.x && mouse.y>position.y && mouse.x<size.x+position.x && mouse.y<size.y+position.y)
+    {
+      PVector globalPos = position.copy().add(parentPos);
+      
+      if(mouse.x>globalPos.x && mouse.y>globalPos.y && mouse.x<size.x+globalPos.x && mouse.y<size.y+globalPos.y)
         if(flagMouseClicked || mousePressed) // flagMouseClicked НЕ РАБОТАЕТ, пока сделано через прессед, к PUSH не прикосаться!
             status = StatusButton.CLICKED;
           else if(mousePressed) status = StatusButton.PUSH;
         else status = StatusButton.MOUSEIN;
       else status = StatusButton.ENABLE;
-    else status = StatusButton.DISABLE;
-    
-    if(status == StatusButton.CLICKED)
-    {
-      /*if(text == "Clear") gameGrid.ClearCell();
-      if(text == "Lamp") mouseMode = "Lamp";
-      if(text == "Connect") mouseMode = "Connect";
-      if(text == "Pin") mouseMode = "Pin";
-      if(text == "Simulate") flagSimulate = !flagSimulate;*/
     }
+    else status = StatusButton.DISABLE;
   }
 }
+
+//========================================================================
+
 class Label extends Object //Текстовая область
 {
   int id;
   boolean enabled;
   String text;
   Viral component;
-  Label(PVector Dposition, String Dtext, boolean Denabled)
+  Label(PVector Dposition, PVector Dsize, String Dtext, boolean Denabled)
   {
-    id = countLabel++;
+    id = AddLabelsList(this);
+    idObjectList = AddObjectList(this);
+    
     position = Dposition;
+    size = Dsize;
     text = Dtext;
     enabled = Denabled;
   }
-  Label(PVector Dposition, String Dtext, boolean Denabled, Viral Dcomponent)
+  Label(PVector Dposition, PVector Dsize, String Dtext, boolean Denabled, Viral Dcomponent)
   {
-    id = countLabel++;
+    id = AddLabelsList(this);
+    idObjectList = AddObjectList(this);
+    
     position = Dposition;
+    size = Dsize;
     text = Dtext;
     enabled = Denabled;
     component = Dcomponent;
   }
-  void Draw()
+  void Draw(PVector parentPos)
   {
     if(enabled)
     {
+      PVector globalPos = position.copy().add(parentPos);
+      
       stroke(255,0,0);
-      rect(position.x,position.y,size.x,size.y); //NullPointerException
+      noFill();
+      text("Label["+idObjectList+"]",globalPos.x-10,globalPos.y-10);
+      rect(globalPos.x,globalPos.y,size.x,size.y);
       fill(protocolTextColor);
       String temp = "";
       try{
@@ -279,11 +299,14 @@ class Label extends Object //Текстовая область
           temp = component.variable;
       }catch(NullPointerException e){ println("ERROR - component.variable undefiend or null data");}
       textFont(debugFont);
-      text(text+temp,position.x,position.y);
+      text(text+temp,globalPos.x,globalPos.y+10);
       textFont(font);
     }
   }
 }
+
+//========================================================================
+
 class Panel extends Container //Группирует элементы интерфейса для их локального взаимодействия
 {
   int id;
@@ -295,7 +318,9 @@ class Panel extends Container //Группирует элементы интер
   //ArrayList<Object> elements;
   Panel(PVector Dposition,PVector Dsize,int Dtype)
   {
-    id = countPanel++;
+    id = AddPanelsList(this);
+    idObjectList = AddObjectList(this);
+    
     position = Dposition;
     size = Dsize;
     type = Dtype;
@@ -305,25 +330,30 @@ class Panel extends Container //Группирует элементы интер
     if(Dtype == TypePanel.SCROLLBOX) enableScrollBar = true;
     else enableScrollBar = false;
     enabled = false;
-    AddObjectList(this);
-    AddPanelsList(this);
   }
   String GetName(){return null;}
-  void Draw()
+  void Draw(PVector parentPos)
   {
     if(!enabled) return;
+    PVector globalPos = position.copy().add(parentPos);
+    
+    stroke(0,255,0);
+    noFill();
+    text("Panel["+idObjectList+"]",globalPos.x-10,globalPos.y-10);
+    rect(globalPos.x,globalPos.y,size.x,size.y);
+    
     if(enableScrollBar)
     {
       fill(255,0,0);
-      rect(position.x-15,position.y-15,10,10);
+      rect(globalPos.x-15,globalPos.y-15,10,10);
     }
     for(Object element : elements)
-      element.Draw();
+      element.Draw(globalPos);
   }
-  void Update()
+  void Update(PVector parentPos)
   {
     for(Object element : elements)
-      element.Update();
+      element.Update(position.copy().add(parentPos));
   }
   void ButtonTriggerEnabled(int enblID)
   {
@@ -334,25 +364,27 @@ class Panel extends Container //Группирует элементы интер
   }
 }
 
-void AddWindowsList(Window temp)
+//========================================================================
+
+int AddWindowsList(Window temp)
 {
   windowsList.add(temp);
-  countWindow++;
+  return windowsList.size()-1;
 }
-void AddButtonsList(Button temp)
+int AddButtonsList(Button temp)
 {
   buttonsList.add(temp);
-  countButton++;
+  return buttonsList.size()-1;
 }
-void AddPanelsList(Panel temp)
+int AddPanelsList(Panel temp)
 {
   panelsList.add(temp);
-  countPanel++;
+  return panelsList.size()-1;
 }
-void AddLabelsList(Label temp)
+int AddLabelsList(Label temp)
 {
   labelsList.add(temp);
-  countLabel++;
+  return labelsList.size()-1;
 }
 
 void DrawGamePanel()
