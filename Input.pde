@@ -13,8 +13,10 @@ class Bind
     c = Dc;
     uievent = e;
     save = s;
-    if(!settingsXML.getChild("Bind").getChild("key_"+c).getContent().equals(uievent))
-      settingsXML.getChild("Bind").getChild("key_"+c).setContent(uievent);
+    //----Эту хуйню нужно убирать от сюда--------
+    if(!boolean(settingsXML.getChild("bind").getChild("key_"+c).getContent())) //Если нет записаной в настройках кнопки, которую запрашивает перед созданием - выдайт ошибку NPE
+      settingsXML.getChild("bind").getChild("key_"+c).setContent(uievent);
+    //-------------------------------------------
     AddBindList(this);
   }
   Bind(char Dc,String e)
@@ -33,15 +35,26 @@ class Bind
     //println(int(c)+" - "+int('q')+" - "+int('w')+" - "+int('e')+" - "+ uievent);
   }
 }
+
 void AddBindList(Bind temp)
 {
   bindList.add(temp);
   countBind++;
 }
+
+StringList ShowBindList()
+{
+  StringList list = new StringList();
+  for(Bind bind : bindList)
+    list.append("[ "+bind.c+" ] - "+bind.uievent);
+  return list;
+}
+
 void mousePressed()
 {
   lines.add(new Line(mouseX,0,mouseX,height));
 }
+
 char toChar(String txt)
 {
   return txt.charAt(0);

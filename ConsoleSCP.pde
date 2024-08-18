@@ -9,6 +9,7 @@ int fps;
 2. Текст не помещается в правый край окна протокола. Стоит переписать логику поведения из списка объектов по реализациям в UX Update()
 3. При выборе другого протокола из списка, сначала обновляется текст протокола, потом обновляется состояние окна.
 4. Текст отрисовывается на окне, а не внутри него.
+5. При содании новой привязки кнопки к эвенту выдаёт ошибку NPE
 */
 //*****************************************************************
 void setup()
@@ -74,8 +75,8 @@ void setup()
   
   
   Window consoleWindow = new Window(new PVector(0,0),new PVector(width,height/2),TypeWindow.CONTAINER,"DEBUG",TypeDeepPosWindow.IMPORTANT,"EnabledconsoleWindow");
-  consoleWindow.SetElement(new Label(new PVector(10,15),new PVector(0,0),"console v.0.3a \n",true,consoleOutput));
-  consoleWindow.SetElement(new Label(new PVector(10,height/2-10),new PVector(0,0),">",true,commandPromt));
+  consoleWindow.SetElement(new Label(new PVector(10,15),new PVector(0,0),"console v.0.3b \n",true,consoleOutput));
+  consoleWindow.SetElement(new Label(new PVector(10,height/2-15),new PVector(0,0),">",true,commandPromt));
   //-----------------------------
   loadXMLe();
   //-----------------------------
@@ -99,7 +100,6 @@ void draw()
   background(0);
   //----------------------------------------
   textLeading(40);
-  background(0);
   
   stroke(255);
   strokeWeight(4);

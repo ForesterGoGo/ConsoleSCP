@@ -21,30 +21,41 @@ void DebudConsoleController(String command)
   switch(list[0])
   {
     case "bind":
-      if(list.length>1)
+      if(list.length > 1)
       {
-              
-        bindList.add(new Bind(toChar(list[1]),list[2],true));
-        
-        if(list[3].equals("-s"))
+        if(list.length < 3 && list[1].equals("-showall"))
         {
-          if(settingsXML.getChild("startUpDebugInfo").getContent().equals("true"))
-            settingsXML.getChild("startUpDebugInfo").setContent("false");
-          else
-            settingsXML.getChild("startUpDebugInfo").setContent("true");
+          StringList stringBindList = ShowBindList();
+          consoleOutput.AddLn("Binds:");
+          for(String text : stringBindList)
+            consoleOutput.AddLn(text);
+        }
+        else
+        {
+          bindList.add(new Bind(toChar(list[1]),list[2],true));
+          
+          if(list[3].equals("-startup"))
+          {
+            if(settingsXML.getChild("startUpDebugInfo").getContent().equals("true"))
+              settingsXML.getChild("startUpDebugInfo").setContent("false");
+            else
+              settingsXML.getChild("startUpDebugInfo").setContent("true");
+          }
         }
       }
       else 
       {
         consoleOutput.AddLn("Неправильный ввод команды");
         consoleOutput.AddLn("Исспользуйте /Bind [клавиша] [эвент] [ключ]");
-        consoleOutput.AddLn("Доступные ключи: -s - сохранение бинда на следующих запусках");
+        consoleOutput.AddLn("Доступные ключи:");
+        consoleOutput.AddLn("-startup [true/false] - сохранение бинда на следующих запусках");
+        consoleOutput.AddLn("-showall - показать все существующие привязки");
       }
     break;
     case "debuginfo": 
       if(list.length>1)
       {
-        if(list[1].equals("-s"))  
+        if(list[1].equals("-startup"))  
         {
           if(list.length>2)
           {
@@ -58,7 +69,7 @@ void DebudConsoleController(String command)
           {
             consoleOutput.AddLn("Неправильный ввод команды");
             consoleOutput.AddLn("Исспользуйте [эвент] [ключ] [значение]");
-            consoleOutput.AddLn("Пример: debuginfo -s true");
+            consoleOutput.AddLn("Доступные ключи: -startup [true/false] - открытие окна дебаг при запуске по умолчанию");
           }
           println("SAVE - startUpDebugInfo");
         }
@@ -83,11 +94,14 @@ void DebudConsoleController(String command)
     break;
     case "help":
     case "":
-      consoleOutput.AddLn("Используйте комманды, чтобы упрощать тестирование игры.");
+      consoleOutput.AddLn("Используйте комманды, чтобы упростить тестирование игры.");
       consoleOutput.AddLn("debuginfo - активировать плашку дебаг панели (КЛЮЧИ: -s - запуск при старте; -b - делает фон(не готов) )");
+      consoleOutput.AddLn("settings - открыть окно настроек");
+      consoleOutput.AddLn("bind - настройки привязки клавиш");
+      
     break;
     default:
-      consoleOutput.AddLn("Комманды "+command+" не существует, для помощи по командам наберите >help");
+      consoleOutput.AddLn("Комманды \""+command+"\" не существует, для помощи по командам наберите >help");
     break;
   }
   lastCommand.append(command);
