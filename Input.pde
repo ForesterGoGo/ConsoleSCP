@@ -13,10 +13,6 @@ class Bind
     c = Dc;
     uievent = e;
     save = s;
-    //----Эту хуйню нужно убирать от сюда--------
-    if(!boolean(settingsXML.getChild("bind").getChild("key_"+c).getContent())) //Если нет записаной в настройках кнопки, которую запрашивает перед созданием - выдайт ошибку NPE
-      settingsXML.getChild("bind").getChild("key_"+c).setContent(uievent);
-    //-------------------------------------------
     AddBindList(this);
   }
   Bind(char Dc,String e)

@@ -32,11 +32,17 @@ void DebudConsoleController(String command)
         }
         else
         {
-          bindList.add(new Bind(toChar(list[1]),list[2],true));
+          char keyChar = toChar(list[1]);
+          String uievent = list[2];
           
-          if(list[3].equals("-startup"))
+          if(settingsXML.getChild("bind").getChild("key_"+keyChar) == null) //Если нет записаной в настройках кнопки, которую запрашивает перед созданием - выдайт ошибку NPE
+            settingsXML.getChild("bind").getChild("key_"+keyChar).setContent(uievent);
+    
+          bindList.add(new Bind(keyChar,uievent,true));
+          
+          if(list.length == 4 && list[3].equals("-startup"))
           {
-            if(settingsXML.getChild("startUpDebugInfo").getContent().equals("true"))
+            if(settingsXML.getChild("startUpDebugInfo").getContent().equals("true")) //Debug info????
               settingsXML.getChild("startUpDebugInfo").setContent("false");
             else
               settingsXML.getChild("startUpDebugInfo").setContent("true");
